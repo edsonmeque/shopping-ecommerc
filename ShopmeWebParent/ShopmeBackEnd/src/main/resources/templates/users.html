@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http:/www.tymeleaf.org ">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimun-scale=1.0">
+		<title>[[${pageTitle}]]</title>
+	    
+	    <link rel="stylesheet"  type="text/css" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
+	    <link rel="stylesheet"  type="text/css" th:href="@{/fontawesome/all.css}" />
+	     <script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/dist/jquery.min.js}"></script>
+	    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.min.js}"></script>
+	</head>
+ 
+ 	<body class="bg-light">
+ 	
+ 	    <div class="container-fluid">
+ 	    
+ 	    <div>
+ 	    	<nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow">
+				 
+				<a th:href="@{/}"  class="navbar-brand">	
+					<img th:src="@{/image/ShopmeAdminSmall.png}"/>
+				 </a>
+
+				 <button class="navbar-toggler" type="button"data-toggle="collapse" data-target="#topNavbar">
+				<span class="navbar-toggler-icon"></span>
+				</button>
+
+				 <div class="collapse navbar-collapse" id="topNavbar">
+
+					   <ul class=" navbar-nav">
+						   <li class="nav-item">
+							   <a th:href="@{/users}" class="nav-link">Users</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/categories}" class="nav-link">Categories</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/brands}" class="nav-link">Brands</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/categories}" class="nav-link">Categories</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/products}" class="nav-link">Products</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/customers}" class="nav-link">Customers</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/shippings}" class="nav-link">Shipping</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/orders}" class="nav-link">Orders</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/reports}" class="nav-link">Sale Report</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/article}" class="nav-link">Articles</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/menu}" class="nav-link">Menu</a>
+						   </li>
+						   
+						   <li class="nav-item">
+							   <a th:href="@{/setting}" class="nav-link">Setting</a>
+						   </li>
+						   
+					   </ul>
+				 </div>
+				
+			 </nav>
+ 	    </div>
+ 	   
+ 	    
+ 	    <div class="m-4">
+ 	    		<h5>Manager Users</h5>
+ 	    		<a th:href="@{/users/new}" class="btn btn-outline-primary">Create new User</a>
+ 	    		
+ 	    		<dev th:if="${message!=null}" class="alert alert-success text-center">
+ 	    	          [[${message}]]
+ 	    		</div>
+ 	    		
+ 	    		<div>
+ 	    		
+ 	    		  <form th:action="@{/users/page/1}" class="col-sm-3">
+ 	    		  	<input type="hidden" name="sortField" th:value="${sortField}">
+ 	    		  	<input type="hidden" name="sortDir" th:value="${sortDir}">
+ 	    		  	
+ 	    		       Filter:&nbsp;
+ 	    		       <input type="search" name="keyword" class="form-control" required />
+ 	    		    	&nbsp;&nbsp;
+ 	    		    	<input type="submit" th:value="search"class="btn btn-primary" />
+ 	    		    	&nbsp;&nbsp;
+ 	    		        <input type="button" th:value="clear" class="btn btn-secondary" required />
+ 	    		        
+ 	    		  </form>
+ 	    		</div>
+ 	    	</div>
+ 	    	
+ 	    	
+ 	    	<div>
+ 	    		
+ 	    		<table class="table table-bordered table-hover table-responsive-xl bg-white ">
+ 	    		    <thead class="thead-dark shadow bg-dark text-white  randond">
+ 	    		       <tr>
+ 	    		       		<th>User ID</th>
+ 	    		       		<th>Photo</th>
+ 	    		       		<th>Email</th>
+ 	    		       		<th>Last Name</th>
+ 	    		       		<th>
+ 	    		       		 <div th:class="text-white">
+ 	    		       		  <a th:if="${sortField!='firstName'}" th:href="@{'/users/page/'+${correntPage}+'?sortField=firstName&sortDir='+${sortDir}}" class="text-white decoration-none">First Name</a>
+ 	    		       		  <a th:if="${sortField=='firstName'}" th:href="@{'/users/page/'+${correntPage}+'?sortField=firstName&sortDir='+${reverseSortDir}}" class="text-white decoration-none">First Name</a>
+ 	    		       		 <span th:class ="${sortDir=='asc' ? 'fas fa-sort-up':'fas fa-sort-down'}"></span>
+ 	    		       		 </div>
+ 	    		       		 </th>
+ 	    		       		<th>Role</th>
+ 	    		       		<th>Enable</th>
+ 	    		       		<th th:class="text-center">Action</th>
+ 	    		       </tr>
+ 	    		    </thead>
+ 	    		    <tbody>
+ 	    		    	
+ 	    		    		<tr th:each="user : ${listUsers}">
+ 	    		    			<td>[[${user.uuid}]]</td>
+ 	    		    			<td class="text-center">
+ 	    		    			<img th:if="${user.photos==null}" id="thumbnail" alt="Photo preview" th:src="@{/image/default.png}" class="rounded img-fluid img-thumbnail" style="width:100px" />
+ 	    		   
+ 	    		    			<img th:if="${user.photos!=null}"th:src="@{${user.photosImagePath}}" style="width:100px" />
+ 	    		    			
+ 	    		    			</td>
+ 	    		    			<td>[[${user.email}]]</td>
+ 	    		    			<td>[[${user.lastName}]]</td>
+ 	    		    			<td>[[${user.firstName}]]</td>
+ 	    		    			<td>[[${user.roles}]]</td>
+ 	    		    			
+ 	    		    			<td><a th:if="${user.enable==true}"
+ 	    		    			class="fas fa-check-circle fa-2px icon-green"
+ 	    		    			th:href="@{'/users/'+${user.uuid}+'/enabled/false'}"
+ 	    		    			title="Desebled  this user"></a>
+ 	    		    			
+ 	    		    			<a th:if="${user.enable==false}"
+ 	    		    			class="fas fa-check-circle fa-2px icon-dark"
+ 	    		    			th:href="@{'/users/'+${user.uuid}+'/enabled/true'}"
+ 	    		    			title="enabled   this user"></a></td>
+ 	    		    			<td th:class="text-center">
+ 	    		    				<a  th:href="@{'/users/edit/'+${user.uuid}}"><i class="text-white fa-2px icon-green btn btn-info shadow">Edit</i></a>
+ 	    		    				&nbsp;
+ 	    		    				<a class="text-white" th:href="@{'/users/delete/'+${user.uuid}}"><i class="text-white fa-2px icon-green btn btn-danger shadow">Delete</i></a>
+ 	    		    				
+ 	    		    			</td>
+ 	    		    			
+ 	    		    		</tr>
+ 	    		    </tbody>
+ 	    		</table>
+ 	    	</div>
+ 	    	<div class="text-center m-1" th:if="${totalItens>0}">
+ 	    	 <span>Showing users # [[${startCount}]] to [[${endCount}]] to [[${totalItens}]]</span>
+ 	    	</div>
+ 	    	
+ 	    	<div class="text-center m-1" th:unless="${totalItens>0}">
+ 	    	 <span>Users not Found</span>
+ 	    	</div>
+ 	    	
+ 	    	<div>
+ 	    	<nav >
+ 				 <ul class="pagination justify-content-center">
+ 				     <li th:class="${correntPage>1 ? 'page-item':'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/1?sortField='+${sortField}+'&sortDir='+${sortDir}}">First</a></li>
+  					 <li th:class="${correntPage>1 ? 'page-item':'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/'+ ${correntPage-1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}">Previous</a></li>
+  					 
+  					 <li th:class="${correntPage!=i ? 'page-item' :'page-item active'}" th:each="i: ${#numbers.sequence(1,totalPege)}">
+  					 <a class="page-link" th:href="@{'/users/page/'+${i}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}">[[${i}]]</a></li>
+  					 
+   				     <li th:class="${correntPage<totalPege ? 'page-item':'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/'+${correntPage+1}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}">Next</a></li>
+   					 <li th:class="${correntPage<totalPege ? 'page-item':'page-item disabled'}"><a class="page-link" th:href="@{'/users/page/'+${totalPege}+'?sortField='+${sortField}+'&sortDir='+${sortDir}}">Last</a></li>
+ 				 </ul>
+			</nav>
+ 	    	</div>
+ 	    	
+ 	    	
+ 	    	<div class="text-center">
+ 	    		<p>Shopme Control Panel -Copyright &copy; Shopme</p>
+ 	    	</div>
+ 	    	
+ 	    </div>
+ 		
+ 	</body>
+</html>
